@@ -46,7 +46,7 @@ namespace :go do
     #within release_path do
       #with_env('GOPATH', release_path) do
         #execute "cd '#{release_path}'; #{fetch(:composer_command)} install"
-        execute "GOPATH=#{release_path}; cd '#{release_path}/tickit-api'; go get"
+        execute "export GOPATH=#{release_path}; cd '#{release_path}/tickit-api'; go get"
 
         #run "go get" #
         #run "mkdir #{release_path}/bin"

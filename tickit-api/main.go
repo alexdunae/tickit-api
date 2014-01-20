@@ -4,6 +4,7 @@ package main
 import (
 	"code.google.com/p/gcfg"
 	"encoding/json"
+	"flag"
 	"github.com/hoisie/web"
 	"io/ioutil"
 	"log"
@@ -223,8 +224,10 @@ func authorize(ctx *web.Context) (ok bool) {
 }
 
 func main() {
-
-	err := gcfg.ReadFileInto(&config, "checkin-api.conf")
+	configPath := flag.String("config", "./checkin-api.conf", "path to the configuration file")
+	flag.Parse()
+	log.Printf("configPath: %+v", *configPath)
+	err := gcfg.ReadFileInto(&config, *configPath)
 
 	if err != nil {
 		panic("Unable to load checkin-api.conf")
