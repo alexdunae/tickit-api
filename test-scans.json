@@ -1,0 +1,18 @@
+[
+    {
+        "ticket_number": "invalid",
+        "scan_reversal": true,
+        "scan_time": "2013-12-18T03:54:50Z",
+        "scan_location": "JSON API Test",
+        "scan_count": 1,
+        "uuid": "a"
+    },
+    {
+        "ticket_number": "32805-390-1-A",
+        "scan_reversal": false,
+        "scan_time": "2013-12-18T03:54:50Z",
+        "scan_location": "JSON API Test",
+        "scan_count": 1,
+        "uuid": "b"
+    }
+]
