@@ -4,7 +4,6 @@ import (
 	"code.google.com/p/go.net/websocket"
 	"log"
 	"net/http"
-	"tickit/common"
 )
 
 func startSocketServer() {
@@ -23,9 +22,9 @@ func socketScanHandler(ws *websocket.Conn) {
 	log.Printf("Client connected: %+v", ws)
 
 	for {
-		var scans []tickit.Scan
+		var scans []Scan
 
-		response := tickit.RecordAPIResponse{Success: false}
+		response := RecordAPIResponse{Success: false}
 
 		err := websocket.JSON.Receive(ws, &scans)
 		if err != nil {

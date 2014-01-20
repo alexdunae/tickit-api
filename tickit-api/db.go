@@ -6,12 +6,11 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"tickit/common"
 	"time"
 )
 
-func LoadManifests() (manifests []tickit.Manifest, err error) {
-	manifests = []tickit.Manifest{}
+func LoadManifests() (manifests []Manifest, err error) {
+	manifests = []Manifest{}
 
 	db, err := sql.Open("mymysql", config.DSN())
 
@@ -60,7 +59,7 @@ func LoadManifests() (manifests []tickit.Manifest, err error) {
 			panic(err.Error())
 		}
 
-		manifest := tickit.Manifest{
+		manifest := Manifest{
 			EventID:    eventID,
 			EventTitle: eventTitle,
 			ItemID:     itemID,
@@ -123,8 +122,8 @@ func StoreExists(storeID int, key string) (exists bool) {
 	return len(stores) == 1
 }
 
-func LoadTickets(itemIDs []int, since time.Time) (tickets map[string]tickit.Ticket, last time.Time) {
-	tickets = map[string]tickit.Ticket{}
+func LoadTickets(itemIDs []int, since time.Time) (tickets map[string]Ticket, last time.Time) {
+	tickets = map[string]Ticket{}
 	last = time.Now().UTC()
 
 	db, err := sql.Open("mymysql", config.DSN())
@@ -190,13 +189,13 @@ func LoadTickets(itemIDs []int, since time.Time) (tickets map[string]tickit.Tick
 	return
 }
 
-func createTicketsFromRow(tickets map[string]tickit.Ticket, orderID int, orderName string, itemID int, itemName string, eventName string, quantity int) {
+func createTicketsFromRow(tickets map[string]Ticket, orderID int, orderName string, itemID int, itemName string, eventName string, quantity int) {
 	for sequence := 1; sequence <= quantity; sequence++ {
-		ticketNumber, err := tickit.GenerateTicketNumber(orderID, itemID, sequence, "A")
+		ticketNumber, err := GenerateTicketNumber(orderID, itemID, sequence, "A")
 		if err != nil {
 			panic(err.Error())
 		}
-		tickets[ticketNumber] = tickit.Ticket{
+		tickets[ticketNumber] = Ticket{
 			TicketNumber: ticketNumber,
 			TicketHolder: orderName,
 			EventName:    eventName,
@@ -204,8 +203,8 @@ func createTicketsFromRow(tickets map[string]tickit.Ticket, orderID int, orderNa
 	}
 }
 
-func LoadScans(itemIDs []int, since time.Time) (scans map[string]tickit.Scan, last time.Time) {
-	scans = map[string]tickit.Scan{}
+func LoadScans(itemIDs []int, since time.Time) (scans map[string]Scan, last time.Time) {
+	scans = map[string]Scan{}
 	last = time.Now().UTC()
 	db, err := sql.Open("mymysql", config.DSN())
 
@@ -253,7 +252,7 @@ func LoadScans(itemIDs []int, since time.Time) (scans map[string]tickit.Scan, la
 	for rows.Next() {
 		err = rows.Scan(&ticketNumber, &scanTime, &scanLocation, &validated, &updatedAt)
 
-		scans[ticketNumber] = tickit.Scan{
+		scans[ticketNumber] = Scan{
 			TicketNumber: ticketNumber,
 			Time:         scanTime.UTC(),
 			Location:     scanLocation,
@@ -274,7 +273,7 @@ func LoadScans(itemIDs []int, since time.Time) (scans map[string]tickit.Scan, la
 	return
 }
 
-func SaveScans(scans []tickit.Scan) (unsavedUUIDs []string, err error) {
+func SaveScans(scans []Scan) (unsavedUUIDs []string, err error) {
 	unsavedUUIDs = make([]string, 0)
 
 	db, err := sql.Open("mymysql", config.DSN())
@@ -287,7 +286,7 @@ func SaveScans(scans []tickit.Scan) (unsavedUUIDs []string, err error) {
 	timestamp := time.Now().UTC()
 
 	for _, scan := range scans {
-		orderID, itemID, _, _, err := tickit.ParseTicketNumber(scan.TicketNumber)
+		orderID, itemID, _, _, err := ParseTicketNumber(scan.TicketNumber)
 
 		// invalid ticket number
 		if err != nil {

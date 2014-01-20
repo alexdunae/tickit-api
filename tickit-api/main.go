@@ -9,11 +9,10 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"tickit/common"
 	"time"
 )
 
-var Tickets = map[string]tickit.Ticket{}
+var Tickets = map[string]Ticket{}
 var config Config
 var storeID int
 
@@ -36,9 +35,9 @@ func postScans(ctx *web.Context) {
 		return
 	}
 
-	var scans []tickit.Scan
+	var scans []Scan
 
-	response := tickit.RecordAPIResponse{Success: false}
+	response := RecordAPIResponse{Success: false}
 
 	body, err := ioutil.ReadAll(ctx.Request.Body)
 
@@ -109,7 +108,7 @@ func getManifests(ctx *web.Context) {
 		return
 	}
 
-	response := tickit.ManifestsAPIResponse{Last: time.Now().UTC(), Success: true}
+	response := ManifestsAPIResponse{Last: time.Now().UTC(), Success: true}
 
 	if response.Success {
 		manifests, err := LoadManifests()
@@ -138,7 +137,7 @@ func getTickets(ctx *web.Context) {
 
 	itemIDs, since := getParams(ctx)
 
-	response := tickit.TicketsAPIResponse{Since: since, Success: true}
+	response := TicketsAPIResponse{Since: since, Success: true}
 
 	if len(itemIDs) < 1 {
 		response.Message = "item_ids param was missing or invalid: must be a comma separated list of IDs"
@@ -166,7 +165,7 @@ func getScans(ctx *web.Context) {
 
 	itemIDs, since := getParams(ctx)
 
-	response := tickit.ScansAPIResponse{Since: since, Success: true}
+	response := ScansAPIResponse{Since: since, Success: true}
 
 	if len(itemIDs) < 1 {
 		response.Message = "item_ids param was missing or invalid: must be a comma separated list of IDs"
@@ -214,7 +213,7 @@ func authorize(ctx *web.Context) (ok bool) {
 	}
 
 	if ok == false {
-		response := tickit.GenericAPIResponse{Success: false, Message: "What are you doing, Dave?"}
+		response := GenericAPIResponse{Success: false, Message: "What are you doing, Dave?"}
 		out, _ := json.Marshal(response)
 		ctx.WriteHeader(401)
 		ctx.Write(out)

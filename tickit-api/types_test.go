@@ -1,4 +1,4 @@
-package tickit
+package main
 
 import (
 	"testing"
