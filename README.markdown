@@ -29,13 +29,7 @@ Install dependencies and start the server:
 
 Install Go > 1.1 (on Ubuntu: http://stackoverflow.com/a/17566846/559596)
 
-    mkdir ~/go
-    export GOPATH=~/go
-    mkdir -p $GOPATH/src/tickit
-
-    cd $GOPATH/src/tickit
-    git clone git@github.com:alexdunae/tickit-api.git .
-
-    cd tickit-api
-    go get
     go install
+
+    $GOPATH/bin/tickit-api -config=/etc/tickit-api.conf
+
