@@ -26,7 +26,7 @@ func setHeaders(ctx *web.Context) {
 	}
 	ctx.SetHeader("Access-Control-Allow-Credentials", "true", true)
 	ctx.SetHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST", true)
-	ctx.SetHeader("Access-Control-Allow-Headers", "Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, X-Tickit-Store, X-Tickit-Key", true)
+	ctx.SetHeader("Access-Control-Allow-Headers", "Content-Type, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, X-Tickit-Store, X-Tickit-Key", true)
 	ctx.SetHeader("Content-type", "application/json; charset=utf-8", true)
 }
 
