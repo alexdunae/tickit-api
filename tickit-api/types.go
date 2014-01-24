@@ -37,9 +37,9 @@ type ManifestsAPIResponse struct {
 }
 
 type RecordAPIResponse struct {
-	Message      string   `json:"message"`
-	Success      bool     `json:"success"`
-	UnsavedUUIDs []string `json:"unsaved_uuids"`
+	Message    string   `json:"message"`
+	Success    bool     `json:"success"`
+	SavedUUIDs []string `json:"uuids"`
 }
 
 type Ticket struct {
@@ -52,13 +52,13 @@ type Ticket struct {
 type Scan struct {
 	UUID         string    `json:"uuid"`
 	TicketNumber string    `json:"ticket_number"`
-	Time         time.Time `json:"scan_time"`
-	Location     string    `json:"scan_location"`
-	Count        int       `json:"scan_count"`
-	Reversal     bool      `json:"scan_reversal"`
+	Time         time.Time `json:"time"`
+	Location     string    `json:"location"`
+	Count        int       `json:"count"`
+	Reversal     bool      `json:"reversal"`
 	OrderID      int       `json:"-"`
 	ItemID       int       `json:"-"`
-	OK           bool      `json:"scan_valid"`
+	OK           bool      `json:"valid"`
 }
 
 // A list of active event items (i.e. ticket types) requested before loading individual tickets by item_id

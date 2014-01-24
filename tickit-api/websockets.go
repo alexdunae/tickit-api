@@ -40,7 +40,7 @@ func socketScanHandler(ws *websocket.Conn) {
 			return
 		}
 
-		response.UnsavedUUIDs = uuids
+		response.SavedUUIDs = uuids
 		response.Success = true
 		websocket.JSON.Send(ws, response)
 	}

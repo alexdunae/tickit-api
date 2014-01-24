@@ -66,7 +66,7 @@ func postScans(ctx *web.Context) {
 	}
 
 	response.Success = true
-	response.UnsavedUUIDs = uuids
+	response.SavedUUIDs = uuids
 	out, _ := json.Marshal(response)
 	// TODOO ctx.ResponseWriter.WriteHeader(201)
 	ctx.Write(out)

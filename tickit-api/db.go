@@ -235,7 +235,7 @@ func LoadScans(itemIDs []int, since time.Time) (scans map[string]Scan, last time
 		itemIDStrings[i] = strconv.Itoa(itemID)
 	}
 
-	rows, err := stmt.Query(strings.Join(itemIDStrings, ""), since)
+	rows, err := stmt.Query(strings.Join(itemIDStrings, ","), since)
 
 	if err != nil {
 		panic(err.Error())
@@ -273,8 +273,8 @@ func LoadScans(itemIDs []int, since time.Time) (scans map[string]Scan, last time
 	return
 }
 
-func SaveScans(scans []Scan) (unsavedUUIDs []string, err error) {
-	unsavedUUIDs = make([]string, 0)
+func SaveScans(scans []Scan) (savedUUIDs []string, err error) {
+	savedUUIDs = make([]string, 0)
 
 	db, err := sql.Open("mymysql", config.DSN())
 
@@ -291,7 +291,6 @@ func SaveScans(scans []Scan) (unsavedUUIDs []string, err error) {
 		// invalid ticket number
 		if err != nil {
 			log.Printf("not saving invalid ticket number: %s", scan.TicketNumber)
-			unsavedUUIDs = append(unsavedUUIDs, scan.UUID)
 			continue
 		}
 
@@ -306,7 +305,6 @@ func SaveScans(scans []Scan) (unsavedUUIDs []string, err error) {
 
 		if err != nil {
 			log.Println(err.Error())
-			unsavedUUIDs = append(unsavedUUIDs, scan.UUID)
 		}
 		defer stmt.Close()
 
@@ -315,6 +313,8 @@ func SaveScans(scans []Scan) (unsavedUUIDs []string, err error) {
 		if err != nil {
 			log.Println(err.Error())
 		}
+
+		savedUUIDs = append(savedUUIDs, scan.UUID)
 	}
 
 	return
