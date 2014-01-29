@@ -21,9 +21,7 @@ var storeID int
 func setHeaders(ctx *web.Context) {
 	// TODO: should this be done with nginx
 	// TODO: check for existence in config.Hosts.AllowedOrigins
-	if origin := ctx.Request.Header.Get("Origin"); origin != "" {
-		ctx.SetHeader("Access-Control-Allow-Origin", origin, true)
-	}
+	ctx.SetHeader("Access-Control-Allow-Origin", "*", true)
 	ctx.SetHeader("Access-Control-Allow-Credentials", "true", true)
 	ctx.SetHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST", true)
 	ctx.SetHeader("Access-Control-Allow-Headers", "Content-Type, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control, X-Tickit-Store, X-Tickit-Key", true)
